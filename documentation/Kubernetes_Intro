@@ -1,0 +1,51 @@
+Intro:
+=====
+
+	-- Kubernes is container cluster management service
+
+	-- Kubernetes is buit throuygh the definition of a set of components(Builinh block or primtives) which, when used collectively, provide a method for the deployment, maintainence and scalability of container based applications
+	-- Kubernetes components / building blocks
+
+		- Nodes or minons : These are worker nodes
+		- Pod 	: 
+		- Labels :	
+		- Selectors :
+		- Controllers :
+		- Services :
+		- Control Pane :
+		- API :
+
+I	-- Kubernetes Architecture:
+	   Below is the hirerachy of the kube cluster
+			 -> Master / Controller	
+				-> Minon-1
+					 -> pod-1
+					    -> Container-1
+					    - Container-2
+					    - Container-N
+					- pod-2
+					- pod N
+						
+				- Minon-2
+				- Minon N	
+
+		-- Minons: These are individual hosts with docker engine installed to host container. 
+			-- Each minion will run ETCD( a key pair management and communication service,, used by kubernestes for exchaning messages and reporting on cluster status) as well as Kubernetes proxy
+		-- POD : A pod consists of one or more containers. Those container are guarenteed to be located on the same host in order to facilitatet sharing of resources
+			pods are assigned with unique ips within clustet. 
+			pods can contain definition of disk volumes or share, then proide access from those to all the members
+			pod management is done through API or delegated to a controller ?
+		-- LABELS: Client can attach "key-value pairs: to any object in the ststem(like Pods or Minons). These become the labels that identify them in the configuration and management of them
+		-- SELECTORS : Label Selectors represent queries that are made against nthose labels. They resolve to the corresponding matching objects.
+		  		These two items are the primart wat that grouping is done in kubernetes and determine which components that a given operation applied to when indicated
+		-- CONTROLLERS : These are used in the management of your cluster. Controllers are the mechanism by which your desired configruation state is enforced
+				 Controllers manage a set of pods and depeding on the desire configuration state, may engage other controllers to handle replication and scaling of N number of containers and pods across the cluster. If is also responsible for replacing any containers in a pod that fails.
+				Other controllers that can be engaged include a DaemonSet Controller and a Job controller 
+				Each set of pods any controller manages, is determined by the label selectors that are part of its definition
+		-- Services: A pod consists of one or more containers. Those container are guaranteed to be located on the same host machine n order to facilitate sharing of resources
+			     This is so that pods can work-together like a multi-tiered applicayion configuration. Each set of pods that define and implement a service (like MySQL or Apache) are defined by the label selector
+			    Kubernestis can then provide service discovery and handle routing with the static IP for each pod as well as load balancing connections to that service among the pods that match the label selector indicated
+		 	   By default, although  a service is only exposed inside a cluster, it can also be exposed outside a cluster as needed
+				
+		
+

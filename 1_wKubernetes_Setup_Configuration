@@ -1,0 +1,8 @@
+Our Configuration
+=================
+	 - 1 master and 3 nodes(minons) and register with master server
+
+Lecture: Packages and Dependencies
+===================================
+	NTP service is required for time sync used for logging and troubleshooting purpose
+	

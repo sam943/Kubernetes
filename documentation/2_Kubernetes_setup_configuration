@@ -1,0 +1,60 @@
+  Packages and Dependencies
+  ------------------------	
+	
+	-- yum install ntp on all the nodes(manager and minions)
+  	-- touch /etc/yum.repos.d/virt-docker-common-release.repo  # create this repo file on all the nodes
+		[virt7-docker-common-release]
+		name=virt7-docker-common-release
+		baseurl=http://cbs.centos.org/repos/virt7-docker-common-release/x86_64/os/
+		gpgcheck=0
+
+	-- On master install etcd, kubernetes and docker
+		-- yum install -y etcd kubernetes docker
+  
+  Configure Master Controller:
+  ---------------------------
+	-- Configure Kubernestes config
+		vim /etc/kubernetes/config file and update below values
+
+		-- KUBE_MASTER="--master=http://kube-master-1.localdomain:8080"
+
+	-- Configure etcd config file
+		vim /etc/etcd/etcd.conf
+
+		-- ETCD_LISTEN_CLIENT_URLS="http://0.0.0.0:2379
+		-- ETCD_ADVERTISE_CLIENT_URLS="http://0.0.0.0:2379"	
+
+	-- Configure Kubernetes apiserver config file
+		-- vim /etc/kubernetes/apiserver
+
+	-- Start kubernetes services
+	systemctl enable etcd kube-apiserver kube-controller-manager kube-scheduler
+	systemctl start etcd kube-apiserver kube-controller-manager kube-scheduler
+	systemctl status etcd kube-apiserver kube-controller-manager kube-scheduler | grep "(running)" | wc -l	
+
+    Install and Configure Minions:
+    ------------------------------
+	-- Install kubernetes
+		yum install -y etcd kubernetes docker
+
+	-- Edit Kubernetes config file
+		   vim /etc/kubernetes/config
+		   KUBE_MASTER="--master=http://kube-master-1.localdomain:8080"
+		   KUBE_ETCD_SERVERS="--etcd-servers=http://kube-master-1.localdomain:2379"
+
+
+	-- Edit kubelet 
+		  vim /etc/kubernetes/kubelet  
+		  KUBELET_ADDRESS="--address=0.0.0.0"
+		  KUBELET_PORT="--port=10250
+		  KUBELET_API_SERVER="--api-servers=http://kube-manager-1.localdomain:8080"
+		  KUBELET_ARGS=""
+
+	-- Enable and start kubelet docker services
+		  systemctl enable kube-proxy kubelet docker
+		  systemctl start kube-proxy kubelet docker
+		  systemctl status kube-proxy kubelet docker | grep "(running)" | wc -l	
+
+  Lecture: Kubectl: Exploring our Environment
+  -------------------------------------------
+	
